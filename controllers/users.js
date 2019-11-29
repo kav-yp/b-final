@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-const NotFoundError = require('../middlewares/Error');
+const NotFoundError = require('../middlewares/NotFoundError');
+const UnauthorizedError = require('../middlewares/UnauthorizedError');
 
 // # проверяет переданные в теле почту и пароль
 // # и возвращает JWT
@@ -24,12 +25,13 @@ module.exports.login = (req, res, next) => {
       );
       res.cookie('jwt', token, {
         httpOnly: true,
-        // ,sameSite: true
       });
 
       res.send({ token });
     })
-    .catch(next);
+    .catch(() => {
+      next(new UnauthorizedError('Invalid email name or password.'));
+    });
 };
 
 // # создаёт пользователя с переданными в теле
@@ -53,7 +55,9 @@ module.exports.createUser = (req, res, next) => {
         _id: user._id, name: user.name, email: user.email,
       });
     })
-    .catch(next);
+    .catch(() => {
+      next(new UnauthorizedError('Username already exists.'));
+    });
 };
 
 // # возвращает информацию о пользователе (email и имя)
@@ -65,7 +69,7 @@ module.exports.getUser = (req, res, next) => {
   User.findById(id)
     .then((user) => {
       if (user == null) {
-        throw new NotFoundError('There is no user with this id.');
+        throw new NotFoundError('');
       }
 
       res.send({ data: user });

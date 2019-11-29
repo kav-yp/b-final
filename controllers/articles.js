@@ -1,6 +1,8 @@
 const Article = require('../models/article');
 
-const NotFoundError = require('../middlewares/Error');
+const NotFoundError = require('../middlewares/NotFoundError');
+const InternalServerError = require('../middlewares/InternalServerError');
+const NoAccessError = require('../middlewares/NoAccessError');
 
 // # возвращает все сохранённые пользователем статьи
 
@@ -43,7 +45,7 @@ module.exports.createArticle = (req, res, next) => {
   })
     .then((article) => {
       if (!article) {
-        throw new NotFoundError('Create process failed, try again');
+        throw new InternalServerError('Create process failed, try again.');
       }
       res.status(201).send({ data: article });
     })
@@ -56,20 +58,20 @@ module.exports.removeArticle = (req, res, next) => {
   Article.findById(id).select('+owner')
     .then((article) => {
       if (article === null) {
-        throw new NotFoundError('Havent card, check id pls');
+        throw new NotFoundError('Havent card, check id pls.');
       }
 
       if (article.owner === req.user._id) {
         Article.findOneAndRemove(id)
           .then((data) => {
             if (!data) {
-              throw new NotFoundError('Create process failed, try again');
+              throw new InternalServerError('Create process failed, try again.');
             }
-            res.status(200).send({ message: 'Success delete' });
+            res.status(200).send({ message: 'Success delete.' });
           })
           .catch(next);
       } else {
-        throw new NotFoundError('No permissions');
+        throw new NoAccessError('No permissions, try again.');
       }
     })
     .catch(next);

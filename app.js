@@ -1,11 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
-// const rateLimit = require('express-rate-limit');
+const rateLimit = require('express-rate-limit');
 
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000,
-// });
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 500, // from single IP
+});
 
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -27,7 +28,7 @@ mongoose.connect('mongodb://localhost:27017/nedb', {
   useUnifiedTopology: true,
 });
 
-// app.use(limiter);
+app.use(limiter);
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -53,7 +54,7 @@ app.use((err, req, res, next) => {
     .status(statusCode)
     .send({
       message: statusCode === 500
-        ? 'Global err: An error has occurred on the server.'
+        ? 'An error has occurred on the server, try again or check your query.'
         : message,
     });
 });

@@ -1,9 +1,9 @@
 #### Learn
-### 15-homework
+### final-homework
 
 -----
 #### Info
 
-84.201.137.247
+84.201.139.173
 
-- [http://curlycurly.tk/](http://curlycurly.tk/)
+- [http://newsexplorer.tk/](http://newsexplorer.tk/)

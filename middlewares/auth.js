@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 
-const handleAuthError = (res) => {
-  res
-    .status(401)
-    .send({ message: 'Authorization required' });
+const NoAccessError = require('../middlewares/NoAccessError');
+
+
+const handleAuthError = () => {
+  throw new NoAccessError();
 };
 
 const extractBearerToken = (header) => header.replace('Bearer ', '');
@@ -14,7 +15,7 @@ module.exports = (req, res, next) => {
   const { NODE_ENV, JWT_SECRET } = process.env;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return handleAuthError(res);
+    return handleAuthError();
   }
 
   const token = extractBearerToken(authorization);
@@ -26,7 +27,7 @@ module.exports = (req, res, next) => {
       NODE_ENV === 'production' ? JWT_SECRET : '1',
     );
   } catch (err) {
-    return handleAuthError(res);
+    return handleAuthError();
   }
 
   req.user = payload;

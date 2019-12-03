@@ -1,3 +1,6 @@
+const NotFoundError = require('../middlewares/NotFoundError');
+
+// eslint-disable-next-line no-unused-vars
 module.exports = (req, res) => {
-  res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
+  throw new NotFoundError();
 };

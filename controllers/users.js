@@ -7,13 +7,14 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 // # проверяет переданные в теле почту и пароль
 // # и возвращает JWT
 // POST /signin
 
 module.exports.login = (req, res, next) => {
   const { email, password, name } = req.body;
-  const { NODE_ENV, JWT_SECRET } = process.env;
 
   return User.findUserByCredentials(email, password, name)
     // eslint-disable-next-line no-unused-vars

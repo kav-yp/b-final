@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const NoAccessError = require('../errors/NoAccessError');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 const handleAuthError = () => {
   throw new NoAccessError();
@@ -12,7 +13,6 @@ const extractBearerToken = (header) => header.replace('Bearer ', '');
 // eslint-disable-next-line consistent-return
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
-  const { NODE_ENV, JWT_SECRET } = process.env;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
     return handleAuthError();

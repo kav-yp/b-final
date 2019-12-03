@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-const NotFoundError = require('../middlewares/NotFoundError');
-const UnauthorizedError = require('../middlewares/UnauthorizedError');
+const NotFoundError = require('../errors/NotFoundError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 // # проверяет переданные в теле почту и пароль
 // # и возвращает JWT

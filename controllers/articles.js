@@ -1,8 +1,8 @@
 const Article = require('../models/article');
 
-const NotFoundError = require('../middlewares/NotFoundError');
-const InternalServerError = require('../middlewares/InternalServerError');
-const NoAccessError = require('../middlewares/NoAccessError');
+const NotFoundError = require('../errors/NotFoundError');
+const InternalServerError = require('../errors/InternalServerError');
+const NoAccessError = require('../errors/NoAccessError');
 
 // # возвращает все сохранённые пользователем статьи
 

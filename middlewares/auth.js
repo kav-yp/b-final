@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const NoAccessError = require('../middlewares/NoAccessError');
+const NoAccessError = require('../errors/NoAccessError');
 
 
 const handleAuthError = () => {

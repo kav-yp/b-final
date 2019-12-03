@@ -1,4 +1,4 @@
-const NotFoundError = require('../middlewares/NotFoundError');
+const NotFoundError = require('../errors/NotFoundError');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (req, res) => {

@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./mongodb.js');
 const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -8,7 +9,6 @@ const limiter = rateLimit({
   max: 500, // from single IP
 });
 
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
@@ -19,14 +19,6 @@ const router = require('./routes');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-
-/* eslint-disable quotes */
-mongoose.connect('mongodb://localhost:27017/nedb', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
 
 app.use(limiter);
 app.use(helmet());

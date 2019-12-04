@@ -1,5 +1,7 @@
+const ErrorMessage = require('../helpers/res-messages');
+
 class InternalServerError extends Error {
-  constructor(message = 'Sorry, Server Error. Please try again.') {
+  constructor(message = `${ErrorMessage.SERVER_ERR_INTERNAL}`) {
     super(message);
     this.statusCode = 500;
   }

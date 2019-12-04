@@ -6,6 +6,7 @@ const User = require('../models/user');
 
 const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const ErrorMessage = require('../helpers/res-messages');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -26,12 +27,13 @@ module.exports.login = (req, res, next) => {
       );
       res.cookie('jwt', token, {
         httpOnly: true,
+        sameSite: true,
       });
 
       res.send({ token });
     })
     .catch(() => {
-      next(new UnauthorizedError('Invalid email name or password.'));
+      next(new UnauthorizedError(ErrorMessage.LOGIN_ERR));
     });
 };
 
@@ -57,7 +59,7 @@ module.exports.createUser = (req, res, next) => {
       });
     })
     .catch(() => {
-      next(new UnauthorizedError('Username already exists.'));
+      next(new UnauthorizedError(ErrorMessage.LOGIN_USER_EXIST));
     });
 };
 
@@ -70,7 +72,7 @@ module.exports.getUser = (req, res, next) => {
   User.findById(id)
     .then((user) => {
       if (user == null) {
-        throw new NotFoundError('');
+        throw new NotFoundError();
       }
 
       res.send({ data: user });

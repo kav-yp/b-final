@@ -3,14 +3,14 @@ const Article = require('../models/article');
 const NotFoundError = require('../errors/NotFoundError');
 const InternalServerError = require('../errors/InternalServerError');
 const NoAccessError = require('../errors/NoAccessError');
-
+const ErrorMessage = require('../helpers/res-messages');
 // # возвращает все сохранённые пользователем статьи
 
 module.exports.getArticles = (req, res, next) => {
   Article.find({})
     .then((articles) => {
       if (!articles) {
-        throw new NotFoundError('The list of entities is empty.');
+        throw new NotFoundError(ErrorMessage.ENTITIES_EMPTY);
       }
 
       res.send({ data: articles });
@@ -45,7 +45,7 @@ module.exports.createArticle = (req, res, next) => {
   })
     .then((article) => {
       if (!article) {
-        throw new InternalServerError('Create process failed, try again.');
+        throw new InternalServerError(ErrorMessage.SERVER_PROCESS_ERR);
       }
       res.status(201).send({ data: article });
     })
@@ -58,20 +58,20 @@ module.exports.removeArticle = (req, res, next) => {
   Article.findById(id).select('+owner')
     .then((article) => {
       if (article === null) {
-        throw new NotFoundError('Havent card, check id pls.');
+        throw new NotFoundError(ErrorMessage.ENTITIES_NONE);
       }
 
       if (article.owner === req.user._id) {
         Article.findOneAndRemove(id)
           .then((data) => {
             if (!data) {
-              throw new InternalServerError('Create process failed, try again.');
+              throw new InternalServerError(ErrorMessage.SERVER_PROCESS_ERR);
             }
-            res.status(200).send({ message: 'Success delete.' });
+            res.status(200).send({ message: `${ErrorMessage.SERVER_SUCCESS}` });
           })
           .catch(next);
       } else {
-        throw new NoAccessError('No permissions, try again.');
+        throw new NoAccessError(ErrorMessage.SERVER_PERMISSION_ERR);
       }
     })
     .catch(next);

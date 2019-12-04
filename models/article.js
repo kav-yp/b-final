@@ -51,12 +51,6 @@ const articleSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
-  // owner: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'user',
-  //   required: true,
-  //   select: false,
-  // },
 });
 
 module.exports = mongoose.model('article', articleSchema);

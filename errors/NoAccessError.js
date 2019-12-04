@@ -1,5 +1,7 @@
+const ErrorMessage = require('../helpers/res-messages');
+
 class NoAccessError extends Error {
-  constructor(message = 'Sorry, No access rights.') {
+  constructor(message = `${ErrorMessage.LOGIN_NO_ACCESS}`) {
     super(message);
     this.statusCode = 403;
   }

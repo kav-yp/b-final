@@ -1,5 +1,6 @@
 require('dotenv').config();
 require('./mongodb.js');
+
 const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -14,6 +15,7 @@ const cookieParser = require('cookie-parser');
 
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const ErrorMessage = require('./helpers/res-messages');
 
 const router = require('./routes');
 
@@ -30,9 +32,9 @@ app.use(requestLogger);
 app.use('/', router);
 app.use(errorLogger);
 
-app.get("/crash-test", () => {
+app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error("The server will crash soon !");
+    throw new Error(ErrorMessage.SERVER_CLOSE_TO_CRASH);
   }, 0);
 });
 
@@ -46,7 +48,7 @@ app.use((err, req, res, next) => {
     .status(statusCode)
     .send({
       message: statusCode === 500
-        ? 'An error has occurred on the server, try again or check your query.'
+        ? ErrorMessage.SERVER_ERR
         : message,
     });
 });

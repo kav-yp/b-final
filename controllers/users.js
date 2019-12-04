@@ -7,6 +7,7 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ErrorMessage = require('../helpers/res-messages');
+const config = require('../config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -22,7 +23,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : '1',
+        NODE_ENV === 'production' ? JWT_SECRET : config.JWT_DEV,
         { expiresIn: '7d' },
       );
       res.cookie('jwt', token, {

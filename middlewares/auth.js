@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const NoAccessError = require('../errors/NoAccessError');
+const config = require('../config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -24,7 +25,7 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(
       token,
-      NODE_ENV === 'production' ? JWT_SECRET : '1',
+      NODE_ENV === 'production' ? JWT_SECRET : config.JWT_DEV,
     );
   } catch (err) {
     return handleAuthError();

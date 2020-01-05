@@ -22,6 +22,23 @@ const router = require('./routes');
 const { PORT = 3000 } = process.env;
 const app = express();
 
+const allowedCors = [
+  'http://newsexplorer.tk',
+  'http://localhost:8080',
+];
+
+app.use((req, res, next) => {
+  const { origin } = req.headers; // Записываем в переменную origin соответствующий заголовок
+
+  if (allowedCors.includes(origin)) { // Проверяем, что значение origin есть
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+  next();
+});
+
+
 app.use(limiter);
 app.use(helmet());
 app.use(cookieParser());

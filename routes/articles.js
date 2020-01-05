@@ -14,19 +14,22 @@ router.get('/articles', auth, getArticles);
 router.post('/articles', auth,
   celebrate({
     body: Joi.object().keys({
+      // keyword: Joi.string(),
       keyword: Joi.string().required(),
       title: Joi.string().required(),
       text: Joi.string().required(),
       date: Joi.string().required().min(9),
-      source: Joi.string().required().min(8),
-      link: Joi.string().required().regex(
+      source: Joi.string().required().min(4),
+      link: Joi.string().required().min(8),
+      image: Joi.string().required().min(8),
+      // link: Joi.string().required().regex(
         // eslint-disable-next-line no-useless-escape
-        /^(http:[\/][\/]|https:[\/][\/])(((\d{1,3}[\.]){3}\d{1,3}([:]\d{2,5})?)[\/]?|(w{3}[\.])?\w+([\.]\w+)?([^www][\.][a-zA-Z]{2,5})([\/]\w+)*(#)?[\/]?)/,
-      ).min(8),
-      image: Joi.string().required().regex(
+        // /^(http:[\/][\/]|https:[\/][\/])(((\d{1,3}[\.]){3}\d{1,3}([:]\d{2,5})?)[\/]?|(w{3}[\.])?\w+([\.]\w+)?([^www][\.][a-zA-Z]{2,5})([\/]\w+)*(#)?[\/]?)/,
+      // ).min(8),
+      // image: Joi.string().required().regex(
         // eslint-disable-next-line no-useless-escape
-        /^(http:[\/][\/]|https:[\/][\/])(((\d{1,3}[\.]){3}\d{1,3}([:]\d{2,5})?)[\/]?|(w{3}[\.])?\w+([\.]\w+)?([^www][\.][a-zA-Z]{2,5})([\/]\w+)*(#)?[\/]?)/,
-      ).min(8),
+        // /^(http:[\/][\/]|https:[\/][\/])(((\d{1,3}[\.]){3}\d{1,3}([:]\d{2,5})?)[\/]?|(w{3}[\.])?\w+([\.]\w+)?([^www][\.][a-zA-Z]{2,5})([\/]\w+)*(#)?[\/]?)/,
+      // ).min(8),
     }),
   }),
   createArticle);

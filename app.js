@@ -24,7 +24,11 @@ const app = express();
 
 const allowedCors = [
   'http://newsexplorer.tk',
+  'https://newsexplorer.tk',
   'http://localhost:8080',
+  'https://localhost:8080',
+  'https://kav-yp.github.io/f-final/',
+  'http://kav-yp.github.io/f-final/',
 ];
 
 app.use((req, res, next) => {

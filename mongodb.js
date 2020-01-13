@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const DB_ADDRESS = 'mongodb://localhost:27017/nedb';
+const { DEV_MONGOD } = require('./config');
 
-mongoose.connect(DB_ADDRESS, {
+mongoose.connect(DEV_MONGOD, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
